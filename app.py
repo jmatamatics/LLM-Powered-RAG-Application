@@ -1,6 +1,5 @@
 from langchain_openai import OpenAIEmbeddings
 from langchain.text_splitter import RecursiveCharacterTextSplitter
-from langchain_core.prompts import PromptTemplate
 from langchain.chains import create_retrieval_chain
 from langchain_openai import ChatOpenAI
 from langchain_community.vectorstores import FAISS
