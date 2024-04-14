@@ -46,10 +46,10 @@ def index(text_chunks):
 def pdf_gpt(human_input):
     llm = ChatOpenAI(model='gpt-4') 
     embeddings = OpenAIEmbeddings()
-    vector = FAISS.load_local("faiss_index", embeddings)
+    vector = FAISS.load_local("faiss_index", embeddings, allow_dangerous_deserialization=True)
     retriever = vector.as_retriever()
     gpt = ConversationalRetrievalChain.from_llm(
-        llm, retriever, memory=memory, verbose=False,return_source_documents=True 
+        llm, retriever, memory=memory, verbose=True,return_source_documents=True 
     )
     result = gpt.invoke({"question": human_input})
     return result["answer"],result["source_documents"][0].dict()['page_content']

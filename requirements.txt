@@ -3,5 +3,7 @@ langchain_openai
 langchain_community
 openai
 python-dotenv
-streamlit
 PyPDF2 
+faiss-cpu
+streamlit
+watchdog
