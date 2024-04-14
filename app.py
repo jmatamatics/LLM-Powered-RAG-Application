@@ -69,6 +69,7 @@ if input_text:
 
 
 
+
 with st.sidebar:
     st.title("PDF Loader:")
     pdf_docs = st.file_uploader("Upload your PDF Files", accept_multiple_files=True)
