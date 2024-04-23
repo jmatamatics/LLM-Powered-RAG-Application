@@ -7,3 +7,4 @@ PyPDF2
 faiss-cpu
 streamlit
 watchdog
+pypdf
