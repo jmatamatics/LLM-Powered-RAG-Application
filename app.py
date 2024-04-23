@@ -1,15 +1,11 @@
 from langchain_openai import OpenAIEmbeddings
-from langchain_community.document_loaders import PyPDFLoader
 from langchain_community.document_loaders import PyPDFDirectoryLoader
-
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain_openai import ChatOpenAI
 from langchain_community.vectorstores import FAISS
 from langchain.memory import ConversationBufferMemory
 from langchain.chains import ConversationalRetrievalChain
 from langchain_community.llms import Ollama
-
-from PyPDF2 import PdfReader
 from dotenv import load_dotenv
 import streamlit as st
 import os
@@ -20,8 +16,6 @@ import time
 
 load_dotenv()
 api_key = os.environ.get("OPENAI_API_KEY")
-
-
 memory = ConversationBufferMemory(memory_key="chat_history", return_messages=True, output_key='answer')
 
 
@@ -30,17 +24,11 @@ def load_pdfs(pdf_docs):
     os.makedirs(folder_path, exist_ok=True) 
     for pdf in pdf_docs:
         file_path =os.path.join(folder_path, pdf.name)
-        # Open a file in binary write mode
         with open(file_path, "wb") as f:
-            # Write the contents of the uploaded file to the new file.
             f.write(pdf.getbuffer())
         loader=PyPDFDirectoryLoader("./data")
         documents = loader.load()
     return  documents
-
-
-
-
 
 
 def chunks(text):
@@ -59,23 +47,21 @@ def index(text_chunks):
 
 def pdf_gpt(human_input):
     llm = ChatOpenAI(model='gpt-4')
-    #llm=Ollama(model="llama2") 
     embeddings = OpenAIEmbeddings()
     vector = FAISS.load_local("faiss_index", embeddings, allow_dangerous_deserialization=True)
-    met = vector.similarity_search(human_input, k =4)
+    rel_docs= vector.similarity_search(human_input, k=4)
     retriever = vector.as_retriever()
     gpt = ConversationalRetrievalChain.from_llm(
-        llm, retriever, memory=memory, verbose=True,return_source_documents=True 
+        llm, retriever, memory=memory, verbose=True,return_source_documents=False
     )
     result = gpt.invoke({"question": human_input})
-    return result["answer"],result["source_documents"], met
+    return result["answer"], rel_docs   
+
 
 
 
 st.title('PDF RAG LLM')
 st.header('',divider='rainbow')
-
-
 
 
 with st.sidebar:
@@ -91,7 +77,7 @@ with st.sidebar:
 
 
 
-#make itrator for st.write_stream...For some reasonLLChain are generator not working
+#make itrator for st.write_stream.
 def stream_data():
     for word in response.split():
         yield word + " "
@@ -116,26 +102,22 @@ if prompt := st.chat_input("What is up?"):
         st.markdown(prompt)
 
     # Display assistant response in chat message container
-    with st.chat_message("assistant"),st.spinner('Please be patient. I am a free open sourced model!'):
-        response, rel_doc, mett= pdf_gpt(prompt)
+    with st.chat_message("assistant"),st.spinner("A man who is a master of patience is master of everything else. ~ George Savile"):
+        response, rel_docs= pdf_gpt(prompt)
         st.write_stream(stream_data)
 
     # Add assistant response to chat history
     st.session_state.messages.append({"role": "assistant", "content": response})
-    #st.session_state.messages.append({"role": "assistant", "source_documents":rel_doc })
-
 
 
 
    # With a streamlit expander
     with st.expander("Related Documents"):
         # Find the relevant chunks
-        docs =''
-        for i, doc in enumerate(rel_doc):
+        for i, doc in enumerate(rel_docs):
             st.write('**Document**',i+1) #bold lettering
-            source = mett[i].metadata['source'][5:] # take out folder name from string
-            page = mett[i].metadata['page'] +1 #counts starting at zero
+            source = rel_docs[i].metadata['source'][5:] # take out folder name from string
+            page = rel_docs[i].metadata['page'] +1 #counts starting at zero
             st.write(f" :book: **page {page} of** ***{source}***") 
-            st.write(doc.dict()['page_content'])
+            st.write(rel_docs[i].page_content)
             st.write("--------------------------------")
-    #st.session_state.messages.append({"role": "assistant", "content": response +'...' '______Source______:' + docs})
