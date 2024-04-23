@@ -12,7 +12,10 @@ import os
 import time
 
 
-    
+
+
+import shutil
+
 
 load_dotenv()
 api_key = os.environ.get("OPENAI_API_KEY")
@@ -60,7 +63,8 @@ def pdf_gpt(human_input):
 
 
 
-st.title('PDF RAG LLM')
+st.title('RAG LLM App using LangChain')
+st.subheader('by Joseph Mata')
 st.header('',divider='rainbow')
 
 
@@ -73,10 +77,20 @@ with st.sidebar:
             doc_chunks = chunks(docs)
             index(doc_chunks)
             st.success("Ready to answer queries!")
+    st.header('',divider='rainbow')
+
+    if st.button("Delete Uploaded Files"):
+        # Remove the directory and all its contents
+        try:
+            shutil.rmtree('./data')
+            print('')
+            shutil.rmtree('./faiss_index')
+            st.success("Files deleted!")
+        except Exception as error:
+            st.success("Files deleted!")
 
 
-
-
+## code adapted from streamlit.io ##
 #make itrator for st.write_stream.
 def stream_data():
     for word in response.split():
