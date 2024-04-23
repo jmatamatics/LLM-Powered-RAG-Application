@@ -58,8 +58,8 @@ def index(text_chunks):
 
 
 def pdf_gpt(human_input):
-    #llm = ChatOpenAI(model='gpt-4')
-    llm=Ollama(model="llama2") 
+    llm = ChatOpenAI(model='gpt-4')
+    #llm=Ollama(model="llama2") 
     embeddings = OpenAIEmbeddings()
     vector = FAISS.load_local("faiss_index", embeddings, allow_dangerous_deserialization=True)
     met = vector.similarity_search(human_input, k =4)
