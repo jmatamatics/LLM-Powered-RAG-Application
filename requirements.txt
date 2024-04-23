@@ -8,3 +8,4 @@ faiss-cpu
 streamlit
 watchdog
 pypdf
+huggingface_hub
