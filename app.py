@@ -10,10 +10,6 @@ from dotenv import load_dotenv
 import streamlit as st
 import os
 import time
-
-
-
-
 import shutil
 
 
@@ -88,6 +84,8 @@ with st.sidebar:
             shutil.rmtree('./data')
             print('')
             shutil.rmtree('./faiss_index')
+            print('')
+            shutil.rmtree('./data')
             st.success("Files deleted!")
         except Exception as error:
             st.success("Files deleted!")
