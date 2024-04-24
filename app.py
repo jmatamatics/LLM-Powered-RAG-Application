@@ -8,6 +8,7 @@ from langchain.chains import ConversationalRetrievalChain
 from langchain_community.llms import Ollama
 from dotenv import load_dotenv
 import streamlit as st
+from streamlit_pdf_viewer import pdf_viewer
 import os
 import time
 import shutil
@@ -66,10 +67,16 @@ st.title('RAG LLM App using LangChain')
 st.subheader('by Joseph Mata')
 st.header('',divider='rainbow')
 
-
 with st.sidebar:
     st.title("PDF Loader")
     pdf_docs = st.file_uploader("", accept_multiple_files=True)
+    if pdf_docs is not None:
+        for i, pdf in enumerate(pdf_docs):
+            # turn into bytes
+            bytes_data = pdf.read()
+            # Pass a unique key for each widget
+            pdf_viewer(bytes_data, width = 100, height =122, pages_to_render =[1], key=f"pdf_viewer_{i}")
+
     if st.button("Submit"):
         with st.spinner("Embedding..."):
             docs = load_pdfs(pdf_docs)
