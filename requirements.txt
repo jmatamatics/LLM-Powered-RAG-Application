@@ -6,6 +6,7 @@ python-dotenv
 PyPDF2 
 faiss-cpu
 streamlit
+streamlit_pdf_viewer 
 watchdog
 pypdf
 huggingface_hub
