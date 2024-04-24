@@ -68,8 +68,8 @@ st.header('',divider='rainbow')
 
 
 with st.sidebar:
-    st.title("PDF Loader:")
-    pdf_docs = st.file_uploader("Upload your PDF Files", accept_multiple_files=True)
+    st.title("PDF Loader")
+    pdf_docs = st.file_uploader("", accept_multiple_files=True)
     if st.button("Submit"):
         with st.spinner("Embedding..."):
             docs = load_pdfs(pdf_docs)
