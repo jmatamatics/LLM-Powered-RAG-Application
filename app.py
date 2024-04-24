@@ -51,7 +51,10 @@ def index(text_chunks):
 def pdf_gpt(human_input):
     llm = ChatOpenAI(model='gpt-4')
     embeddings = OpenAIEmbeddings()
-    vector = FAISS.load_local("faiss_index", embeddings, allow_dangerous_deserialization=True)
+    try:
+        vector = FAISS.load_local("faiss_index", embeddings, allow_dangerous_deserialization=True)
+    except Exception as error:
+        vector = FAISS.load_local("Ghuru_index", embeddings, allow_dangerous_deserialization=True)
     rel_docs= vector.similarity_search(human_input, k=4)
     retriever = vector.as_retriever()
     gpt = ConversationalRetrievalChain.from_llm(
