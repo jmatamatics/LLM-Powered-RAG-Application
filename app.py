@@ -135,11 +135,12 @@ if prompt := st.chat_input("What's your question?"):
 
    # With a streamlit expander
     with st.expander("Related Documents"):
+        if " " in prompt and ("i'm sorry"  not in response.lower()):
         # Find the relevant chunks
-        for i, doc in enumerate(rel_docs):
-            st.write('**Document**',i+1) #bold lettering
-            source = rel_docs[i].metadata['source'][5:] # take out folder name from string
-            page = rel_docs[i].metadata['page'] +1 #counts starting at zero
-            st.write(f" :book: **page {page} of** ***{source}***") 
-            st.write(rel_docs[i].page_content)
-            st.write("--------------------------------")
+            for i, doc in enumerate(rel_docs):
+                st.write('**Document**',i+1) #bold lettering
+                source = rel_docs[i].metadata['source'][5:] # take out folder name from string
+                page = rel_docs[i].metadata['page'] +1 #counts starting at zero
+                st.write(f" :book: **page {page} of** ***{source}***") 
+                st.write(rel_docs[i].page_content)
+                st.write("--------------------------------")
