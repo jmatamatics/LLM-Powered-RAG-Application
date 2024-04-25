@@ -25,7 +25,7 @@ with st.sidebar:
             # turn into bytes
             bytes_data = pdf.read()
             # Pass a unique key for each widget
-            pdf_viewer(bytes_data,width = 290, height =377, key=f"pdf_viewer_{i}")
+            pdf_viewer(bytes_data,width = 100, height =122, pages_to_render =[1], key=f"pdf_viewer_{i}")
 #pages_to_render =[1]width = 300, height =342,
     if st.button("Submit"):
         with st.spinner("Embedding..."):
