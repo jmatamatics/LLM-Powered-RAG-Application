@@ -85,7 +85,7 @@ if prompt := st.chat_input("What's your question?"):
 
    # With a streamlit expander
     with st.expander("Related Documents"):
-        if "i'm sorry" or " "not in response.lower() and:
+        if "i'm sorry" or " "not in response.lower():
         # Find the relevant chunks
             for i, doc in enumerate(rel_docs):
                 st.write('**Document**',i+1) #bold lettering
