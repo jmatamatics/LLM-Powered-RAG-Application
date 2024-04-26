@@ -10,4 +10,3 @@ streamlit_pdf_viewer
 watchdog
 pypdf
 huggingface_hub
-os

@@ -8,7 +8,7 @@ from langchain.chains import ConversationalRetrievalChain
 from dotenv import load_dotenv
 import streamlit as st
 from streamlit_pdf_viewer import pdf_viewer
-
+import os
 memory = ConversationBufferMemory(memory_key="chat_history", return_messages=True, output_key='answer')
 
 
