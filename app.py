@@ -93,7 +93,7 @@ if prompt := st.chat_input("What's your question?"):
                 st.write(f" :book: **page {page} of** ***{source}***") 
                 #st.write('**Relevant Text/Chunk:**',rel_docs[i].page_content)
                 try:
-                    pdf_viewer(rel_docs[i].metadata['source'],width = 670, height =790, pages_to_render =[page], key=f"pdf_viewer_{i}")
+                    pdf_viewer(rel_docs[i].metadata['source'],width = 670, height =790, pages_to_render =[page], key=f"pdf_viewer_{i+100}")
                 except Exception as error:
                     book ='ghuru/' + source
                     pdf_viewer(book,width = 670, height =790, pages_to_render =[page], key=f"pdf_viewer_{i}")
