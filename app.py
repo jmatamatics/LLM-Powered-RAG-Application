@@ -92,7 +92,10 @@ if prompt := st.chat_input("What's your question?"):
                 source = rel_docs[i].metadata['source'][5:] # take out folder name from string
                 page = rel_docs[i].metadata['page'] +1 #counts starting at zero
                 st.write(f" :book: **page {page} of** ***{source}***") 
-                st.write('**Relevant Text/Chunk:**',rel_docs[i].page_content)
-                #pdf_viewer(rel_docs[i].metadata['source'],width = 670, height =790, pages_to_render =[page], key=f"pdf_viewer_{i+100}")
-
+                #st.write('**Relevant Text/Chunk:**',rel_docs[i].page_content)
+                try:
+                    pdf_viewer(rel_docs[i].metadata['source'],width = 670, height =790, pages_to_render =[page], key=f"pdf_viewer_{i}")
+                except Exception as error:
+                    book ='ghuru/' + source
+                    pdf_viewer(book,width = 670, height =790, pages_to_render =[page], key=f"pdf_viewer_{i}")
                 st.write("--------------------------------" )
