@@ -19,14 +19,13 @@ st.header('',divider='rainbow')
 
 with st.sidebar:
     st.title("PDF Loader")
-    pdf_docs = st.file_uploader("", accept_multiple_files=True)
+    pdf_docs = st.file_uploader("", accept_multiple_files=True,label_visibility="collapsed")
     if pdf_docs is not None:
         for i, pdf in enumerate(pdf_docs):
             # turn into bytes
             bytes_data = pdf.read()
             # Pass a unique key for each widget
             pdf_viewer(bytes_data,width = 100, height =122, pages_to_render =[1], key=f"pdf_viewer_{i}")
-#pages_to_render =[1]width = 300, height =342,
     if st.button("Submit"):
         with st.spinner("Embedding..."):
             docs = load_pdfs(pdf_docs)
