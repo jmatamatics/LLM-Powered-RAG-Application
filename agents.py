@@ -21,8 +21,8 @@ def load_pdfs(pdf_docs):
         file_path =os.path.join(folder_path, pdf.name)
         with open(file_path, "wb") as f:
             f.write(pdf.getbuffer())
-        loader=PyPDFDirectoryLoader("./data")
-        documents = loader.load()
+    loader=PyPDFDirectoryLoader("./data") #, extract_images=True)
+    documents = loader.load()
     return  documents
 
 
