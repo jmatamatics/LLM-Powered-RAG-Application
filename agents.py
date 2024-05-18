@@ -9,21 +9,49 @@ from dotenv import load_dotenv
 import streamlit as st
 from streamlit_pdf_viewer import pdf_viewer
 import os
+import fitz  # PyMuPDF
+import sys
 memory = ConversationBufferMemory(memory_key="chat_history", return_messages=True, output_key='answer')
 
 
 
 
+def pdf_needs_ocr(pdf_path):
+    doc = fitz.open(pdf_path)
+    for page_num in range(len(doc)):
+        page = doc.load_page(page_num)
+        text = page.get_text("text")
+        if text.strip():  # If there's any text on the page
+            return False            
+    return True
+
+
 def load_pdfs(pdf_docs):
     folder_path = 'data'
-    os.makedirs(folder_path, exist_ok=True) 
+    os.makedirs(folder_path, exist_ok=True)
+    #documents=''
     for pdf in pdf_docs:
         file_path =os.path.join(folder_path, pdf.name)
         with open(file_path, "wb") as f:
             f.write(pdf.getbuffer())
-    loader=PyPDFDirectoryLoader("./data") #, extract_images=True)
+        # Check if the saved PDF needs OCR
+        if pdf_needs_ocr(file_path):
+            # Move the PDF to the OCR folder
+            ocr_folder_path = os.path.join("needs_ocr", pdf.name)
+            move(file_path, ocr_file_path)
+    loader=PyPDFDirectoryLoader("./data")
     documents = loader.load()
     return  documents
+
+
+def load_ocr_pdfs(folder = "./needs_ocr"):
+    loader=PyPDFDirectoryLoader(folder, extract_images=True)
+    documents = loader.load()
+    return  documents
+
+
+
+
 
 
 def chunks(text):

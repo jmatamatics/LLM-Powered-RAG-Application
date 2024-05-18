@@ -10,3 +10,5 @@ streamlit_pdf_viewer
 watchdog
 pypdf
 huggingface_hub
+rapidocr-onnxruntime
+pymupdf
