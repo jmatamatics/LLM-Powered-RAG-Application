@@ -17,4 +17,4 @@ The app utilizes Streamlit, an open-source app framework, Langchain, the most po
 
 🔥 Ask A Yogi: By default, books written by 🧘‍♂️ Sadhguru will inform the model.P
 
-Play with the app while tokens last![here](https://llm-powered-rag-application.streamlit.app/).
+Play with the app while tokens last![here](https://rag-llm-langchain.streamlit.app/).
