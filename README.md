@@ -15,7 +15,7 @@ The app utilizes Streamlit, an open-source app framework, Langchain, the most po
 
 🔥 Multilingual Model: You can chat in Spanish, French, German, Chinese, Japanese, Korean, Russian, and many more.
 
-🔥 Ask A Yogi: By default, books written by 🧘‍♂️ Sadhguru will inform the model.P
+🔥 Ask A Yogi: By default, books written by 🧘‍♂️ Sadhguru will inform the model.
 
 
 Access it [here](https://rag-llm-langchain.streamlit.app/).
